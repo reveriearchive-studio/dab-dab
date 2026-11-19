@@ -1,284 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
-  <title>dab-dab — Privacy Policy</title>
-  <meta name="description" content="Privacy policy for dab-dab. A private, on-device journal that collects nothing.">
-
-  <style>
-    /* Self-hosted so this page makes ZERO network requests — fitting for a privacy policy
-       (no Google Fonts hotlinking, no trackers). All faces are SIL OFL. */
-    @font-face { font-family:'Mansalva'; src:url('fonts/Mansalva-Regular.ttf') format('truetype'); font-weight:400; font-display:swap; }
-    @font-face { font-family:'IBM Plex Mono'; src:url('fonts/IBMPlexMono-Regular.ttf') format('truetype'); font-weight:400; font-display:swap; }
-    @font-face { font-family:'IBM Plex Mono'; src:url('fonts/IBMPlexMono-Medium.ttf') format('truetype'); font-weight:500; font-display:swap; }
-    @font-face { font-family:'Cormorant Garamond'; src:url('fonts/CormorantGaramond-VariableFont_wght.ttf') format('truetype'); font-weight:100 900; font-display:swap; }
-    @font-face { font-family:'Caveat'; src:url('fonts/Caveat-VariableFont_wght.ttf') format('truetype'); font-weight:100 900; font-display:swap; }
-
-    /* dab-dab design tokens (mono editorial). Light is the default; Night mirrors the app. */
-    :root {
-      --paper:#FCFAF6; --wall:#ECE7DE;
-      --ink:#1C1917; --ink-body:#57534E; --ink-soft:#736D66;
-      --line:rgba(28,25,23,0.10); --line-strong:rgba(28,25,23,0.16);
-      --surface:#FFFFFF; --teal:#7396A3;
-      --font-mark:'Mansalva', cursive;
-      --font-mono:'IBM Plex Mono','SF Mono', ui-monospace, monospace;
-      --font-serif:'Cormorant Garamond', Georgia, serif;
-      --font-hand:'Caveat', cursive;
-      --font-ui:-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      --r-md:14px; --r-lg:20px;
-      --grain:0.04;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --paper:#171513; --wall:#0E0D0B;
-        --ink:#F2EFEA; --ink-body:#A8A29E; --ink-soft:#857F78;
-        --line:rgba(242,239,234,0.12); --line-strong:rgba(242,239,234,0.2);
-        --surface:#221E1A; --teal:#7DA8A3;
-        --grain:0.03;
-      }
-    }
-
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html { -webkit-text-size-adjust:100%; }
-    body {
-      background:var(--wall); color:var(--ink);
-      font-family:var(--font-ui); font-size:16px; line-height:1.65;
-      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-      padding:40px 18px 72px;
-    }
-    /* The app's faint paper grain, laid over everything (tiny opacity keeps text crisp). */
-    body::before {
-      content:''; position:fixed; inset:0; z-index:50; pointer-events:none; opacity:var(--grain);
-      background-image:url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
-    }
-
-    /* A single warm page, like a day in the journal. */
-    .sheet {
-      position:relative; max-width:42rem; margin:0 auto;
-      background:var(--paper); border:1px solid var(--line-strong); border-radius:var(--r-lg);
-      box-shadow:0 2px 5px rgba(28,25,23,0.06), 0 20px 56px rgba(28,25,23,0.12);
-      padding:clamp(34px, 6vw, 60px);
-    }
-    /* A faint inset "matte" frame — the app's bordered-photo edge, applied to the page itself. */
-    .sheet::after {
-      content:''; position:absolute; inset:13px; pointer-events:none;
-      border:1px solid var(--line); border-radius:calc(var(--r-lg) - 7px);
-    }
-
-    /* Two dry-brush dabs — the app icon, in CSS. Ink + the one drop of colour. */
-    .dabs { display:flex; gap:10px; margin-bottom:20px; }
-    .dab { width:26px; height:26px; border-radius:62% 38% 54% 46% / 56% 52% 48% 44%; }
-    .dab.ink  { background:var(--ink);  transform:rotate(-9deg); }
-    .dab.teal { background:var(--teal); transform:rotate(11deg); }
-
-    h1 { font-family:var(--font-mark); font-weight:400; font-size:clamp(42px, 10vw, 58px);
-         line-height:1; letter-spacing:-0.01em; }
-    .subtitle { font-family:var(--font-serif); font-style:italic; font-size:1.45rem;
-                color:var(--ink-body); margin-top:2px; }
-    .meta { font-family:var(--font-mono); font-size:11px; font-weight:500; letter-spacing:1.6px;
-            text-transform:uppercase; color:var(--ink-soft); margin-top:16px; }
-
-    .rule { border:0; border-top:1px solid var(--line); margin:26px 0 28px; }
-
-    .lede { font-family:var(--font-serif); font-size:1.5rem; line-height:1.45; color:var(--ink-body); }
-    .lede strong { color:var(--ink); font-weight:600; }
-    .closing { font-family:var(--font-serif); font-style:italic; font-size:1.4rem; line-height:1.4;
-      color:var(--ink-body); text-align:center; margin:2.6rem 0 .2rem; }
-
-    h2 { font-family:var(--font-mark); font-weight:400; font-size:1.6rem; line-height:1.12;
-         letter-spacing:-0.005em; margin:2.2rem 0 .6rem; padding-top:1.9rem;
-         border-top:1px dashed var(--line-strong); }     /* dashed section rule, like a sticker edge */
-    h2:first-of-type { border-top:0; padding-top:.2rem; }
-    p { margin:.55rem 0; color:var(--ink-body); }
-    p.body-ink { color:var(--ink); }
-    ul { padding-left:1.15rem; margin:.5rem 0; color:var(--ink-body); }
-    li { margin:.42rem 0; }
-    strong { color:var(--ink); font-weight:600; }
-    em { color:var(--ink); }
-
-    a { color:var(--ink); text-decoration-line:underline; text-decoration-color:var(--teal);
-        text-underline-offset:3px; text-decoration-thickness:1.5px; }
-    a:hover { text-decoration-thickness:2.5px; }
-
-    .contact-sub { font-family:var(--font-serif); font-style:italic; font-size:1.2rem;
-      color:var(--ink-body); margin:.1rem 0 .1rem; }
-    .contact-card { margin-top:1rem; padding:4px 22px; background:var(--surface);
-      border:1px solid var(--line-strong); border-radius:var(--r-md); }
-    .field { display:flex; flex-direction:column; align-items:center; text-align:center; gap:3px;
-             padding:13px 0; border-bottom:1px dashed var(--line); }   /* dashed field rules, echoing the dividers */
-    .field:last-child { border-bottom:0; }
-    .field .label { font-family:var(--font-mono); font-size:10px; font-weight:500;
-      letter-spacing:1.6px; text-transform:uppercase; color:var(--ink-soft); }
-    .field .value, .field a { font-family:var(--font-ui); font-size:15px; color:var(--ink); }
-
-    footer { margin-top:3rem; padding-top:1.4rem; border-top:1px solid var(--line); text-align:center; }
-    .sig { font-family:var(--font-hand); font-weight:500; font-size:1.65rem; line-height:1.2; color:var(--ink-body); }
-    .imprint { font-family:var(--font-mono); font-size:10px; font-weight:500; letter-spacing:2px;
-               text-transform:uppercase; color:var(--ink-soft); margin-top:8px; }
-
-    @media (max-width:480px) { body { padding:16px 10px 48px; } .lede { font-size:1.3rem; } }
-  </style>
+  <meta name="theme-color" content="#fcfaf6">
+  <meta name="description" content="dab-dab is a quiet, tactile daily journal for iPhone and iPad.">
+  <title>dab-dab — A little room for today</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="site-header">
     <nav class="nav" aria-label="Primary navigation">
-      <a class="wordmark" href="https://reveriearchive-studio.github.io/dab-dab/">dab-dab</a>
-      <div class="nav-links"><a href="https://reveriearchive-studio.github.io/dab-dab/how-it-works.html">How it works</a><a href="https://reveriearchive-studio.github.io/dab-dab/editions.html">Editions</a><a href="support.html">Support</a><a href="index.html" aria-current="page">Privacy</a></div>
+      <a class="wordmark" href="index.html" aria-label="dab-dab home">dab-dab</a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-links">Menu</button>
+      <div class="nav-links" id="site-links">
+        <a href="how-it-works.html">How it works</a>
+        <a href="editions.html">Editions</a>
+        <a href="support.html">Support</a>
+        <a href="https://reveriearchive-studio.github.io/dab-dab-privacy/">Privacy</a>
+      </div>
     </nav>
   </header>
-  <main class="sheet">
-    <div class="dabs" aria-hidden="true"><span class="dab ink"></span><span class="dab teal"></span></div>
 
-    <h1>dab-dab</h1>
-    <p class="subtitle">Privacy Policy</p>
-    <p class="meta">Updated November 18, 2026 · iPhone &amp; iPad</p>
-
-    <hr class="rule">
-
-    <p class="lede">
-      dab-dab is a quiet little journal — a page a day, however small. A doodle, a few words, a
-      photo, a couple of dabs of colour. It lives entirely on your phone, and stays there: no
-      accounts, no cloud, no analytics, no ads, and no one peeking over your shoulder. What you make
-      stays with you. <strong>We never see it.</strong>
-    </p>
-
-    <h2>What we collect</h2>
-    <p>
-      Nothing — truly. dab-dab has no servers of its own, so there is nowhere for your information to
-      go. No personal details, no usage analytics, no device identifiers. It was built that way on
-      purpose.
-    </p>
-
-    <h2>Your journal stays yours</h2>
-    <p>
-      Your pages — drawings, notes, photos, backgrounds — live on your device and nowhere else. A
-      small snapshot of <em>today's</em> page, and little previews of a few of your sticker tins, are
-      tucked into a private container on your phone that only dab-dab and its own widgets can open,
-      just so the optional home-screen widgets can show them. Your pages never leave your device, and
-      they are all gone the moment you delete the app.
-    </p>
-    <p>
-      One thing to know: if you use iCloud Backup, your phone's own backup, which Apple holds and we
-      never see, includes dab-dab's pages along with the rest of the app data on your device, and
-      restores them to a new phone. It is the same as any other app. dab-dab itself has no cloud.
-    </p>
-
-    <h2>Camera &amp; photos</h2>
-    <ul>
-      <li><strong>Camera</strong> (optional): used only when you choose to take a photo for a sticker
-        or a stamp. The picture is handled entirely on your phone.</li>
-      <li><strong>Photo Library</strong>: you pick a photo through Apple's own picker, and dab-dab
-        sees only the one you choose. Cut-outs are traced right on your device with Apple's Vision
-        framework.</li>
-      <li><strong>Saving</strong>: an exported page goes to your Photo Library only with your okay.
-        dab-dab never reads the photos already there.</li>
-    </ul>
-
-    <h2>Places &amp; the stamp map</h2>
-    <p>
-      dab-dab can find the places on your stamps with Apple Maps, so they can sit on a map and so the
-      stamp maker can suggest a caf&eacute; or a city as you type. This is <strong>off</strong> until
-      you turn on <em>Find places with Apple Maps</em>, where dab-dab asks or in Settings, and you can
-      turn it off again at any time.
-    </p>
-    <p>
-      When it is on, only the place you are looking for is sent to Apple Maps: the words you type or
-      have stamped, such as &ldquo;Blue Bottle Coffee, Oakland&rdquo;, and, when you search near a
-      city you picked, that city's area on the map. Never your own location (dab-dab does not ask for
-      it), and never your pages, photos, drinks or notes. The places found are kept on your phone with
-      your journal. Showing the map loads its map tiles from Apple Maps too. Apple handles these requests
-      under <a href="https://www.apple.com/legal/privacy/">Apple's Privacy Policy</a>; we never see
-      them.
-    </p>
-
-    <h2>Sharing &amp; files</h2>
-    <p>
-      Apart from those place lookups, which only happen once you turn them on, dab-dab never sends
-      anything anywhere on its own. When you share a page, a sticker tin or a
-      stamp, dab-dab hands a copy to Apple's share sheet and <strong>you</strong> choose where it goes
-      — Messages, Mail, Files, AirDrop, or nowhere. A shared page is prepared as a temporary file in
-      your phone's temporary storage, which is tidied away afterwards. We cannot see what you share
-      or who you share it with.
-    </p>
-    <p>
-      It works the other way too: when you open a tin or a stamp that someone sent you, dab-dab copies
-      it into your own library on your phone. Nothing about it is reported back to anyone.
-    </p>
-
-    <h2>Purchases</h2>
-    <p>
-      dab-dab+ and the lifetime unlock are handled by Apple through the App Store. We never see or
-      store your payment details — that part is between you and Apple, under
-      <a href="https://www.apple.com/legal/privacy/">Apple's Privacy Policy</a>. If you redeem an
-      offer code, that happens in Apple's own sheet too.
-    </p>
-
-    <h2>Notifications</h2>
-    <p>
-      Turn on the gentle daily reminder and it is scheduled right on your device. Nothing about it is
-      sent anywhere.
-    </p>
-
-    <h2>Analytics &amp; tracking</h2>
-    <p>
-      None. No analytics, no ad networks, no tracking SDKs. dab-dab does not use the Advertising
-      Identifier (IDFA), and it never follows you across other apps or websites.
-    </p>
-
-    <h2>Children's privacy</h2>
-    <p>
-      dab-dab collects nothing from anyone — children included. There is simply nothing gathered to
-      begin with.
-    </p>
-
-    <h2>Keeping or clearing your data</h2>
-    <p>
-      Because everything lives on your device, it is yours to keep or clear. Delete a page and its
-      files go with it; delete the app and everything dab-dab itself stores goes too. The one
-      exception is anything you deliberately saved or sent out — a page you exported to your Photo
-      Library stays there, in your Photos, until you remove it yourself, and a page, tin or stamp you
-      shared stays with whoever you shared it with, the same as any other photo or file you've sent.
-    </p>
-
-    <h2>Your rights &amp; control</h2>
-    <p>
-      Since your journal stays on your device and we hold none of it, there is nothing for us to look
-      up, change, export, or erase on your behalf — you are already in full control. Questions about
-      your rights under laws like the GDPR or CCPA? Just reach out below.
-    </p>
-
-    <h2>Changes to this policy</h2>
-    <p>
-      If anything here changes, we will update this page and the date at the top. Nothing hidden,
-      nothing sprung on you.
-    </p>
-
-    <p class="closing">Your journal is yours. We just make the paper.</p>
-
-    <h2>Contact the Editor</h2>
-    <p class="contact-sub">Questions about this Privacy Policy?</p>
-    <div class="contact-card">
-      <div class="field">
-        <span class="label">Email</span>
-        <a href="mailto:reveriearchive.studio@gmail.com">reveriearchive.studio@gmail.com</a>
+  <main>
+    <section class="hero">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">A quiet daily journal · iPhone + iPad</p>
+        <h1>dab-dab</h1>
+        <p class="lede">A little room for today.</p>
+        <p class="body-copy">A gentle place for the fragments that make up a life: a thought, a photo, a line of ink, a small thing you want to keep.</p>
+        <div class="hero-actions">
+          <a class="button" href="how-it-works.html">See how it works <span aria-hidden="true">→</span></a>
+          <a class="button secondary" href="#download">Keep exploring</a>
+        </div>
+        <p class="hero-note">No pressure. Just a little room.</p>
+        <div class="stat-line"><span><strong>Made for</strong> small moments</span><span><strong>Designed for</strong> iPhone + iPad</span></div>
       </div>
-      <div class="field">
-        <span class="label">Developer</span>
-        <span class="value">Antheia Li</span>
+      <div class="hero-art reveal" aria-label="A light handmade-paper journal collage with botanical ink, washi and a pressed leaf">
+        <img class="hero-asset" src="assets/paper-collage.png" alt="">
       </div>
-      <div class="field">
-        <span class="label">Application</span>
-        <span class="value">dab-dab by Reverie Archive</span>
-      </div>
-    </div>
+    </section>
 
-    <footer>
-      <p class="sig">Made with care — and kept on your device.</p>
-      <p class="imprint">© 2026 · Reverie Archive</p>
-    </footer>
+    <section class="section compact reveal" aria-labelledby="rhythm-title">
+      <div class="section-head"><div><p class="eyebrow">The gentle rhythm</p><h2 id="rhythm-title">Keep the day<br>in small pieces.</h2></div><p>dab-dab is made for a daily practice that leaves space around the day instead of asking you to perform it.</p></div>
+      <div class="feature-grid">
+        <article class="feature"><span class="feature-number">01</span><h3>Jot what’s real</h3><p>Notes, feelings, fragments, lists, and the things that do not need to become a story.</p><a href="how-it-works.html">Make a page →</a></article>
+        <article class="feature"><span class="feature-number">02</span><h3>Keep it visual</h3><p>Bring in a photo, a small drawing, a stamp, or a paper piece when words are not enough.</p><a href="editions.html">See the materials →</a></article>
+        <article class="feature"><span class="feature-number">03</span><h3>Come back tomorrow</h3><p>A new page is an invitation, not a demand. Your journal grows at its own pace.</p><a href="support.html">Find gentle help →</a></article>
+      </div>
+    </section>
+
+    <section class="material-section" aria-labelledby="materials-title">
+      <div class="material-inner">
+        <div class="material-display">
+          <div class="material-board reveal" aria-label="Lightweight neutral washi and handmade paper samples">
+            <img class="materials-asset" src="assets/materials-strip.png" alt="">
+          </div>
+          <div class="reveal"><p class="eyebrow">A paper studio for your own life</p><h2 id="materials-title">Make it<br>feel like yours.</h2><p class="body-copy">Choose a paper tone. Add a soft note. Press in a stamp. Let the page stay a little imperfect. dab-dab keeps the decorative pieces quiet enough for your own words to remain the centre.</p><a class="button secondary" href="editions.html">Explore editions <span aria-hidden="true">→</span></a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quote-band"><div class="quote reveal">“A simple place to be, just as you are.”<small>dab-dab · a daily journal</small></div></section>
+
+    <section class="section" id="download" aria-labelledby="download-title">
+      <div class="section-head"><div><p class="eyebrow">A softer way to keep a record</p><h2 id="download-title">Start with<br>one small mark.</h2></div><p>Explore dab-dab on iPhone or iPad. Your pages are made to stay close, with no account to maintain and a clear support path whenever you need it.</p></div>
+      <div class="hero-actions"><a class="button" href="how-it-works.html">Read the guide <span aria-hidden="true">→</span></a><a class="button secondary" href="support.html">Visit support</a></div>
+    </section>
   </main>
+
+  <footer class="footer"><div class="footer-inner"><div><div class="footer-brand">dab-dab</div><p>A little room for today. A quiet journal for iPhone and iPad.</p></div><div class="footer-links"><a href="how-it-works.html">How it works</a><a href="editions.html">Editions</a><a href="support.html">Support</a><a href="https://reveriearchive-studio.github.io/dab-dab-privacy/">Privacy</a><a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms</a></div></div><div class="footer-meta">© 2026 Reverie Archive Studio · made with care</div></footer>
+  <script src="script.js"></script>
 </body>
 </html>
